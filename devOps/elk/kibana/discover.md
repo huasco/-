@@ -199,4 +199,6 @@ Discover 标签页用于交互式探索你的数据。你可以访问到匹配�
 
 ![img](images/19.jpg)
 
-> 要基于这个字段创建可视化，点击字段统计下方的 Visualize 按钮。
+参考链接：
+
+[Kibana User Guide](https://www.elastic.co/guide/en/kibana/current/index.html)
