@@ -11,7 +11,7 @@
 
 ### 3.1 filebeat 配置
 
-filebeat.yml
+**filebeat.yml**
 
 ```Yaml
 
@@ -49,7 +49,7 @@ logging.files:
   
 ```
 
-config/input_config.yml
+**config/input_config.yml**
 
 ```Yaml
 
@@ -65,7 +65,7 @@ config/input_config.yml
 
 ```
 
-filebeat.sh (来自网上的一段启动脚本, 用法： ./filebeat.sh test|start|stop|restart|status)
+**filebeat.sh (来自网上的一段启动脚本, 用法： ./filebeat.sh test|start|stop|restart|status)**
 
 ```Bash
 
@@ -147,7 +147,7 @@ esac
 
 es没有配置文件，所有的配置都是通过 http rest 接口去实现的
 
-修改es默认密码
+**修改es默认密码**
 
 ```
 PUT /_xpack/security/user/elastic/_password
@@ -158,7 +158,7 @@ PUT /_xpack/security/user/elastic/_password
 
 ```
 
-ingest pipeline配置，注意 date 里面要配置一个时区，否则 kibana 解析日期会差8小时
+**ingest pipeline配置（注意 date 里面要配置一个时区，否则 kibana 解析日期会差8小时）**
 
 ```
 PUT /_ingest/pipeline/huasco_pipline
@@ -188,14 +188,31 @@ PUT /_ingest/pipeline/huasco_pipline
 
 ```
 
-修改默认的 ingest pattern
+**修改默认的 ingest pattern**
 
 打开\modules\ingest-common\ingest-common-5.4.0.jar，修改里面patterns目录下的grok-patterns，有两处修改：
-第一个，修改 GREEDYDATA，第二在它上面加一行配置 NEWLINE（表示任意多个换行），具体如下：
+第一个，修改 GREEDYDATA（因为默认的不能读取多行，这个和logstash不一致），第二在它上面加一行配置 NEWLINE（表示任意多个换行），具体如下：
 
 ```
 NEWLINE \n+
 GREEDYDATA ([\s\S]*)
+```
+
+**kibana 配置**
+
+kibana.yml
+
+```Yaml
+---
+## Default Kibana configuration from kibana-docker.
+## from https://github.com/elastic/kibana-docker/blob/master/build/kibana/config/kibana.yml
+#
+server.name: kibana
+server.host: "0"
+elasticsearch.url: http://elasticsearch:9200
+elasticsearch.username: elastic
+elasticsearch.password: huasco@51888
+xpack.monitoring.ui.container.elasticsearch.enabled: true
 ```
 
 
