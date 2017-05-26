@@ -176,7 +176,7 @@ PUT /_ingest/pipeline/huasco_pipline
             "grok": {
                 "field": "message",
                 "patterns": [
-                    "\\[%{WORD:level}\\]\\[%{TIMESTAMP_ISO8601:timestamp}\\]\\[%{PROG:logger}\\]\\[%{PROG:pid_pname}\\]\\[%{JAVACLASS:class}\\]\\[%{WORD:method}\\]\\[%{INT:line}\\]%{NEWLINE:ignoreme}%{GREEDYDATA:msg}"
+                    "\\[%{WORD:level}\\]\\[%{TIMESTAMP_ISO8601:timestamp}\\]\\[%{PROG:logger}\\]\\[%{PROG:pid_pname}\\]\\[%{JAVACLASS:class}\\]\\[%{WORD:method}\\]\\[%{INT:line}\\]%{GREEDYDATA:msg}"
                 ]
             }
         },
@@ -188,6 +188,11 @@ PUT /_ingest/pipeline/huasco_pipline
                 ],
                 "timezone": "Asia/Shanghai"
             }
+        },
+        {
+            "trim": {
+                "field": "msg"
+        	}
         }
     ]
 }
@@ -196,11 +201,9 @@ PUT /_ingest/pipeline/huasco_pipline
 
 **修改默认的 ingest pattern**
 
-打开\modules\ingest-common\ingest-common-5.4.0.jar，修改里面patterns目录下的grok-patterns，有两处修改：
-第一个，修改 GREEDYDATA（因为默认的不能读取多行，这个和logstash不一致），第二在它上面加一行配置 NEWLINE（表示任意多个换行），具体如下：
+打开\modules\ingest-common\ingest-common-5.4.0.jar，修改里面patterns目录下的grok-patterns，修改 GREEDYDATA（因为默认的不能读取多行，这个和logstash不一致）
 
 ```
-NEWLINE \n+
 GREEDYDATA ([\s\S]*)
 ```
 
