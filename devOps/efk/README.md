@@ -193,6 +193,31 @@ PUT /_ingest/pipeline/huasco_pipline
             "trim": {
                 "field": "msg"
         	}
+        },
+        {
+            "remove": {
+                "field": "type"
+            }
+        },
+        {
+            "remove": {
+                "field": "source"
+            }
+        },
+        {
+            "remove": {
+                "field": "fields.app_id"
+            }
+        },
+        {
+            "remove": {
+                "field": "message"
+            }
+        },
+        {
+            "remove": {
+                "field": "timestamp"
+            }
         }
     ]
 }
