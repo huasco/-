@@ -225,7 +225,7 @@ xpack.monitoring.ui.container.elasticsearch.enabled: true
 # 第四部分 使用注意事项    
 
 ### 4.1 关于 es xpak 密码的问题
-es 的官方 dockfile 默认是安装了 xpak 插件，默认用户名密码是：elastic changeme，启动容器后可以修改密码，但容器重启后，密码有时候会被重置，所以需要再次通过REST接口修改；
+es 的官方 dockfile 默认是安装了 x-pack 插件，默认用户名密码是：elastic changeme，启动容器后可以修改密码，但容器重启后，密码有时候会被重置，所以需要再次通过REST接口修改；
 
 ### 4.2 kibana日志时间格式和默认日志字段的配置
 kibana的默认时间格式比较复杂，展示效果不好，我们可以在 Management/Advanced Settings 中修改 dateFormat 格式为：** YYYY-MM-DD HH:mm:ss.SSS **，还有它默认展示的字段是 Date 和 \_source，我们可以修改为想要的字段，即修改 defaultColumns 为： msg（这是我们日志中的详情字段）
