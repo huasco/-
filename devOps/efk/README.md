@@ -149,7 +149,7 @@ esac
 
 ```
 
-### 3.1 elasticsearch 和 kibana 配置
+### 3.2 elasticsearch 和 kibana 配置
 
 es没有配置文件，所有的配置都是通过 http rest 接口去实现的
 
