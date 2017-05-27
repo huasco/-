@@ -68,6 +68,8 @@ logging.files:
   multiline.pattern: '^\[[FATAL|ERROR|WARN|INFO|DEBUG|TRACE]'
   multiline.negate: true
   multiline.match: after
+  scan_frequency: 5s
+  clean_removed: true
 
 ```
 
@@ -260,6 +262,9 @@ kibana的默认时间格式比较复杂，展示效果不好，我们可以在 M
 
 ### 4.3 kibana使用请参考[官网文档](https://www.elastic.co/guide/en/kibana/current/discover.html)
 有一点需要注意，kibana discover 界面上的带加减号的放大镜，不是放大和缩小的功能，而是添加当前文本为搜索条件的意思。
+
+### 4.4 filebeat日志解析优化
+由于filebeat定时去监测文件是否有变动，如果日志文件积累的比较多，那么对于性能是有影响的。这里我们采用的做法是每天定时任务将历史日志文件转移到备份文件夹，让filebeat不在扫描历史文件。
 
 
 
