@@ -178,8 +178,9 @@ PUT /_ingest/pipeline/huasco_pipline
             "grok": {
                 "field": "message",
                 "patterns": [
-                    "\\[%{WORD:level}\\]\\[%{TIMESTAMP_ISO8601:timestamp}\\]\\[%{PROG:logger}\\]\\[%{PROG:pid_pname}\\]\\[%{JAVACLASS:class}\\]\\[%{WORD:method}\\]\\[%{INT:line}\\]%{GREEDYDATA:msg}"
-                ]
+                    "\\[%{GREEDYDATA:level}\\]\\[%{TIMESTAMP_ISO8601:timestamp}\\]\\[%{GREEDYDATA:logger}\\]\\[%{GREEDYDATA:pid_pname}\\]\\[%{GREEDYDATA:class}\\]\\[%{GREEDYDATA:method}\\]\\[%{INT:line}\\]%{GREEDYDATA:msg}"
+                ],
+                "ignore_failure": true
             }
         },
         {
