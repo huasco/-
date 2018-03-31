@@ -155,7 +155,7 @@ esac
 
 es没有配置文件，所有的配置都是通过 http rest 接口去实现的
 
-**修改es默认密码**
+**修改xpack默认密码**
 
 ```
 PUT /_xpack/security/user/elastic/_password
@@ -164,6 +164,12 @@ PUT /_xpack/security/user/elastic/_password
   "password" : "huasco@51888"
 }
 
+```
+**如果xpack不需要，可以分别进入容器中卸载**
+```
+bin/elasticsearch-plugin remove x-pack --purge
+
+bin/kibana-plugin remove x-pack
 ```
 
 **ingest pipeline配置（注意 date 里面要配置一个时区，否则 kibana 解析日期会差8小时）**
