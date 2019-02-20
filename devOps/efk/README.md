@@ -155,28 +155,11 @@ esac
 
 es没有配置文件，所有的配置都是通过 http rest 接口去实现的
 
-**修改xpack默认密码**
-
-```
-PUT /_xpack/security/user/elastic/_password
-
-{
-  "password" : "huasco@51888"
-}
-
-```
-**如果xpack不需要，可以分别进入容器中卸载**
-```
-bin/elasticsearch-plugin remove x-pack --purge
-
-bin/kibana-plugin remove x-pack
-```
 
 **ingest pipeline配置（注意 date 里面要配置一个时区，否则 kibana 解析日期会差8小时）**
 
 ```
 PUT /_ingest/pipeline/huasco_pipline
-
 {
     "description": "huasco_pipline",
     "processors": [
@@ -202,11 +185,6 @@ PUT /_ingest/pipeline/huasco_pipline
             "trim": {
                 "field": "msg"
         	}
-        },
-        {
-            "remove": {
-                "field": "type"
-            }
         },
         {
             "remove": {
@@ -253,29 +231,19 @@ kibana.yml
 server.name: kibana
 server.host: "0"
 elasticsearch.url: http://elasticsearch:9200
-elasticsearch.username: elastic
-elasticsearch.password: huasco@51888
-xpack.monitoring.ui.container.elasticsearch.enabled: true
+
 ```
 
 
 # 第四部分 使用注意事项    
 
-### 4.1 关于 es x-pack 密码的问题
-es 的官方 dockfile 默认是安装了 x-pack 插件，默认用户名密码是：elastic changeme，启动容器后可以修改密码，但容器重启后，密码有时候会被重置，所以需要再次通过REST接口修改；
-
-### 4.2 kibana日志时间格式和默认日志字段的配置
+### 4.1 kibana日志时间格式和默认日志字段的配置
 kibana的默认时间格式比较复杂，展示效果不好，我们可以在 Management/Advanced Settings 中修改 dateFormat 格式为：** YYYY-MM-DD HH:mm:ss.SSS **，还有它默认展示的字段是 Date 和 \_source，我们可以修改为想要的字段，即修改 defaultColumns 为： msg（这是我们日志中的详情字段）
 
-### 4.3 kibana使用请参考[官网文档](https://www.elastic.co/guide/en/kibana/current/discover.html)
+### 4.2 kibana使用请参考[官网文档](https://www.elastic.co/guide/en/kibana/current/discover.html)
 有一点需要注意，kibana discover 界面上的带加减号的放大镜，不是放大和缩小的功能，而是添加当前文本为搜索条件的意思。
 
-### 4.4 filebeat日志解析优化
+### 4.3 filebeat日志解析优化
 由于filebeat定时去监测文件是否有变动，如果日志文件积累的比较多，那么对于性能是有影响的。这里我们采用的做法是每天定时任务将历史日志文件转移到备份文件夹，让filebeat不在扫描历史文件。
-
-### 4.5 x-pack证书过期
-默认安装的x-pack有一个月的试用期，过了的话会导致插件不可用，也就无法登陆kibana查看日志了。这里有两种方案（还有一种就是破解，站在公司角度，不建议使用），一种是卸载x-pack，一种是更新证书文件。由于我们是docker安装，卸载不成功，所以采用第二种方案，即更新成免费的证书，免费证书基本没有提供什么功能，所以和卸载的效果是一致的。为了不让日志信息暴露在公网，将日志平台放到ecc中进行统一权限认证管理。更新证书请参考[官网文档](https://www.elastic.co/guide/en/x-pack/5.4/installing-license.html)
-
-
 
 
